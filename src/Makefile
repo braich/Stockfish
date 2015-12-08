@@ -288,6 +288,17 @@ endif
 ### 3.6. Bits
 ifeq ($(bits),64)
 	CXXFLAGS += -DIS_64BIT
+else
+	ifneq ($(UNAME),Darwin)
+		ifeq ($(arch),i386)
+			CXXFLAGS += -m32
+			ifeq ($(sse),yes)
+				CXXFLAGS += -march=pentium3
+			else
+				CXXFLAGS += -march=i486
+			endif
+		endif
+	endif
 endif
 
 ### 3.7 prefetch
